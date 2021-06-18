@@ -2,6 +2,7 @@
 "BASIC CONFIGURATION									"	
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set nocompatible "stops vi compatibility
 syntax on "highlight syntax
 set number "show line numbers
 set noswapfile "disable the swapfile
@@ -15,37 +16,43 @@ set shiftwidth=4 "When shifting, indent using four spaces
 set expandtab "tabs convert to spaces
 set nowrap "Disable line wrapping
 set scrolloff=6 "The number of screen lines to keep above and below the cursor.
-set noshowmode "removes 'mode' line as lightline does this for us
-
-
+set noshowmode "removes 'mode' indicator as lightline does this for us
+set notimeout ttimeout "make vim time out for key codes but not mappings
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "KEY CONFIGURATION										"	
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"Makes Ctrl+C work like Esc
+nnoremap <C-c> <Esc>
+ 
 "Map leader to space
 let mapleader = " "
 
 "Open fzf search
-map <leader>f :find 
+map <leader>f :Files %:p:h<CR> 
 
 "Open nerd tree
-map <leader>t :NERDTreeToggle<CR>
+map <leader>t :NERDTreeToggle %<CR>
 
 "Split view
 map <leader>vs :vs<CR>
 map <leader>sp :sp<CR>
 
 "Window navigation
-map <leader>h <C-W>h<C-W>_<CR> "left
-map <leader>l <C-W>l<C-W>_<CR> "right
-map <leader>k <C-W>k<C-W>_<CR> "up
-map <leader>j <C-W>j<C-W>_<CR> "down
-map <leader>n <C-W>j<C-W>_<CR> "new window
-map <leader>x <C-W>j<C-W>_<CR> "close window
+map <leader>h <C-W>h<C-W>_<CR> 
+map <leader>l <C-W>l<C-W>_<CR>
+map <leader>k <C-W>k<C-W>_<CR>
+map <leader>j <C-W>j<C-W>_<CR>
+map <leader>n <C-W>j<C-W>_<CR>
+map <leader>x <C-W>j<C-W>_<CR>
 
+"Normal Stuff
+map <leader>w :w<CR>
+map <leader>qq :q<CR>
+map <leader>qqq :q!<CR>
 
-"Reloud vimrc
+"Reload vimrc
 map <leader>rrr :source ~/.vimrc<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -79,20 +86,20 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 	Plug 'preservim/nerdtree'
 
 	" fzf
-	Plug 'junegunn/fzf.vim'
-
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}	
+    Plug 'junegunn/fzf.vim'
+    
 	" lightline 
 	Plug 'itchyny/lightline.vim'
 
 	" vim-fugitive
 	Plug 'tpope/vim-fugitive'
-
+	
 	" vim-gitgutter
 	Plug 'airblade/vim-gitgutter'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Theme													"
