@@ -18,6 +18,8 @@ set nowrap "Disable line wrapping
 set scrolloff=6 "The number of screen lines to keep above and below the cursor.
 set noshowmode "removes 'mode' indicator as lightline does this for us
 set notimeout ttimeout "make vim time out for key codes but not mappings
+set backspace=indent,eol,start "make backspace work as 'normal'
+set encoding=utf-8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "KEY CONFIGURATION										"	
@@ -30,7 +32,7 @@ nnoremap <C-c> <Esc>
 let mapleader = " "
 
 "Open fzf search
-map <leader>f :Files %:p:h<CR> 
+map <leader>f :Files ~/<CR> 
 
 "Open nerd tree
 map <leader>t :NERDTreeToggle %<CR>
@@ -49,7 +51,7 @@ map <leader>x <C-W>j<C-W>_<CR>
 
 "Normal Stuff
 map <leader>w :w<CR>
-map <leader>qq :q<CR>
+map <leader>q :q<CR>
 map <leader>qqq :q!<CR>
 
 "Reload vimrc
@@ -75,9 +77,9 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 " Declare the list of plugins.
-
-	" Vim theme close to VSCode
-	Plug 'tomasiser/vim-code-dark'
+    
+    "One half theme
+    Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 	" Emmet
 	Plug 'mattn/emmet-vim'
@@ -98,16 +100,54 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 	" vim-gitgutter
 	Plug 'airblade/vim-gitgutter'
 
+    " youcompleteme - need to install additional components: https://vimawesome.com/plugin/youcompleteme
+	Plug 'valloric/youcompleteme'
+
+    " vim-javascript 
+	Plug 'pangloss/vim-javascript'
+
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Theme													"
+" Theme and UI options								    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set background=dark
-colorscheme codedark
+"Enables true color
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
+set t_Co=256
+colorscheme onehalfdark  
+
+"Remove background of vim, line numbers and sign column 
+hi Normal guibg=NONE ctermbg=NONE 
+"highlight clear SignColumn
+"highlight clear LineNr
+
+
+"Ruler customisations
+set cursorline "turn on highlighting current line
+hi CursorLine ctermbg=235 ctermfg=NONE guibg=#313640 
+hi CursorLineNr ctermbg=235 gui=bold guifg=#e5c07b guibg=#313640
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autocommands and advanced options     				"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+set number relativenumber "Enables relative line numbers
+
+"https://jeffkreeftmeijer.com/vim-number/
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber "Relative numbers turn off for inactive windows or insert mode
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber "Relative numbers turn on for active windows in normal mode
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Customisation									"
@@ -117,7 +157,7 @@ colorscheme codedark
 " lightline 
 
 let g:lightline = {
-	\'colorscheme': 'one',
+	\'colorscheme': 'onehalfdark',
 	\'active': {
 	\	'left': [
 	\				[ 'mode', 'paste' ],
