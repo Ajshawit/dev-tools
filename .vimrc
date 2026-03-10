@@ -65,8 +65,12 @@ let g:netrw_banner=0 "disables annoying banner
 let g:netrw_browse_slipt=4 "open in prior window
 let g:netrw_altv=1 "open splits to right
 let g:netrw_liststyle=3 "tree view
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+try
+  let g:netrw_list_hide=netrw_gitignore#Hide()
+  let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+catch
+  let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
+endtry
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -100,8 +104,8 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 	" vim-gitgutter
 	Plug 'airblade/vim-gitgutter'
 
-    " youcompleteme - need to install additional components: https://vimawesome.com/plugin/youcompleteme
-	Plug 'valloric/youcompleteme'
+    " mucomplete - lightweight completion using Vim's built-in omnicomplete
+	Plug 'lifepillar/vim-mucomplete'
 
     " vim-javascript 
 	Plug 'pangloss/vim-javascript'
@@ -209,3 +213,9 @@ let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 
 set laststatus=2 "lightline won't show without this
+
+""""""""""""""""""""""""""""""""""""
+" mucomplete
+
+set completeopt+=menuone,noselect
+let g:mucomplete#enable_auto_at_startup = 1
