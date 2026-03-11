@@ -107,8 +107,14 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
     " mucomplete - lightweight completion using Vim's built-in omnicomplete
 	Plug 'lifepillar/vim-mucomplete'
 
-    " vim-javascript 
+    " vim-javascript
 	Plug 'pangloss/vim-javascript'
+
+	" vim-code-dark
+	Plug 'tomasiser/vim-code-dark'
+
+	" vim-devicons
+	Plug 'ryanoasis/vim-devicons'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
